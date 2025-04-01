@@ -7,10 +7,11 @@ import (
 	"context"
 	"crypto/md5"
 	"fmt"
+	"time"
+
 	"github.com/gin-gonic/gin"
 	"github.com/google/uuid"
 	"gorm.io/gorm"
-	"time"
 )
 
 type Auth struct{}
@@ -76,27 +77,27 @@ func (a Auth) Login(ctx *gin.Context) {
 func (a Auth) Register(ctx *gin.Context) {
 	var req RegisterDto
 	err := ctx.ShouldBind(&req)
-	fmt.Println(err)
 	if err != nil {
-		fmt.Println("step1", err)
-		utils.Fail(ctx, "---step1---"+err.Error())
+		utils.Fail(ctx, "请求参数错误："+err.Error())
 		return
 	}
+
 	captcha, err := global.AquilaRedis.Get(context.Background(), req.CaptchaKey).Result()
 	if captcha != req.Code {
 		utils.Fail(ctx, "验证码错误")
 		return
 	}
 	defer global.AquilaRedis.Del(context.Background(), req.CaptchaKey)
+
 	var user model.UserEntity
-	// q: Find() 和 First() 的区别
-	// a: Find() 返回的是一个数组，First() 返回的是一个对象
-	err = global.AquilaDb.Where("username = ?", req.Username).First(&user).Error
+	// 检查用户名和邮箱是否已存在
+	err = global.AquilaDb.Where("username = ? OR email = ?", req.Username, req.Email).First(&user).Error
 	if err != nil {
 		// 创建新用户
 		user = model.UserEntity{
 			Username: req.Username,
 			Password: fmt.Sprintf("%x", md5.Sum([]byte(req.Password))),
+			Email:    req.Email,
 		}
 		err = global.AquilaDb.Transaction(func(tx *gorm.DB) error {
 			err = tx.Create(&user).Error
@@ -113,7 +114,11 @@ func (a Auth) Register(ctx *gin.Context) {
 		utils.Success(ctx, nil)
 		return
 	} else {
-		utils.Fail(ctx, "用户已存在")
+		if user.Username == req.Username {
+			utils.Fail(ctx, "用户名已存在")
+		} else {
+			utils.Fail(ctx, "邮箱已被注册")
+		}
 		return
 	}
 }

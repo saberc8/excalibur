@@ -14,7 +14,7 @@ type UserEntity struct {
 	Avatar            string    `gorm:"column:avatar;type:varchar(100);comment:头像" json:"avatar"`                                                           // 头像
 	Nickname          string    `gorm:"column:nickname;type:varchar(50);comment:昵称" json:"nickname"`                                                        // 昵称
 	UserType          int64     `gorm:"column:user_type;type:smallint;comment:账号类型:0普通账号,1是超管" json:"userType"`                                             // 账号类型:0普通账号,1是超管
-	Email             string    `gorm:"column:email;type:varchar(50);comment:电邮地址" json:"email"`                                                            // 电邮地址
+	Email             string    `gorm:"column:email;type:varchar(100);not null;comment:电邮地址" json:"email"`                                                  // 电邮地址
 	Mobile            string    `gorm:"column:mobile;type:varchar(30);comment:手机号码" json:"mobile"`                                                          // 手机号码
 	Sort              int64     `gorm:"column:sort;type:int;default:1;comment:排序" json:"sort"`                                                              // 排序
 	Status            int64     `gorm:"column:status;type:smallint;comment:状态0是正常,1是禁用" json:"status"`                                                      // 状态0是正常,1是禁用

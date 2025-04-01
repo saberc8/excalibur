@@ -46,7 +46,9 @@ func GormPgSql() *gorm.DB {
 			&model.MenuEntity{},
 			&model.RoleMenuEntity{},
 			&model.UserRoleEntity{},
-
+			&model.SpaceEntity{},   // 新增
+			&model.ProjectEntity{}, // 新增
+			&model.TaskEntity{},    // 新增
 		)
 		if err != nil {
 			log.Fatalf("failed to auto migrate models: %v", err)

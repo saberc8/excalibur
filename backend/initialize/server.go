@@ -37,6 +37,7 @@ func Routers() *gin.Engine {
 	router.InitMenuRouter(ApiGroup)   // 菜单路由
 	router.InitFileRouter(ApiGroup)   // 文件路由
 	router.InitInitDbRouter(ApiGroup) // 初始化路由
+	router.InitManagerRouter(ApiGroup) // 业务路由
 
 	return Router
 }

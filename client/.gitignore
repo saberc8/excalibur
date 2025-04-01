@@ -19,11 +19,6 @@ dist-ssr
 *.sln
 *.sw?
 
-# Environment files
-.env
-.env.*
-!.env.example
-
 # OS generated files
 .DS_Store
 .DS_Store?
