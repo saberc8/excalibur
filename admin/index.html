@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="renderer" content="webkit" />
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
+		/>
+		<link rel="icon" href="/favicon.ico" />
+		<title>ginevomix管理系统</title>
+		<style>
+			html,
+			body,
+			#app {
+				height: 100%;
+				margin: 0px;
+				padding: 0px;
+        background-color: #ffffff;
+			}
+			.loading-container {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				flex-direction: column;
+        width: 100%;
+        height: 500px;
+        padding: 100px 0;
+			}
+
+			.cssload-dots {
+				width: 0;
+				height: 0;
+				outline: 1px solid red;
+				filter: url(#goo);
+				-o-filter: url(#goo);
+				-ms-filter: url(#goo);
+				-webkit-filter: url(#goo);
+				-moz-filter: url(#goo);
+			}
+
+			.cssload-dot {
+				width: 0;
+				height: 0;
+				position: absolute;
+				left: 0;
+				top: 0;
+			}
+			.cssload-dot:before {
+				content: '';
+				width: 34px;
+				height: 34px;
+				border-radius: 49px;
+				background: rgb(251, 211, 1);
+				position: absolute;
+				left: 50%;
+				transform: translateY(0);
+				-o-transform: translateY(0);
+				-ms-transform: translateY(0);
+				-webkit-transform: translateY(0);
+				-moz-transform: translateY(0);
+				margin-left: -17.5px;
+				margin-top: -17.5px;
+			}
+
+			.cssload-dot:nth-child(5):before {
+				z-index: 100;
+				width: 44.5px;
+				height: 44.5px;
+				margin-left: -21.75px;
+				margin-top: -21.75px;
+				animation: cssload-dot-colors 2.4s ease infinite;
+				-o-animation: cssload-dot-colors 2.4s ease infinite;
+				-ms-animation: cssload-dot-colors 2.4s ease infinite;
+				-webkit-animation: cssload-dot-colors 2.4s ease infinite;
+				-moz-animation: cssload-dot-colors 2.4s ease infinite;
+			}
+
+			.cssload-dot:nth-child(1) {
+				animation: cssload-dot-rotate-1 2.4s 0s linear infinite;
+				-o-animation: cssload-dot-rotate-1 2.4s 0s linear infinite;
+				-ms-animation: cssload-dot-rotate-1 2.4s 0s linear infinite;
+				-webkit-animation: cssload-dot-rotate-1 2.4s 0s linear infinite;
+				-moz-animation: cssload-dot-rotate-1 2.4s 0s linear infinite;
+			}
+			.cssload-dot:nth-child(1):before {
+				background-color: rgb(255, 50, 112);
+				animation: cssload-dot-move 2.4s 0s ease infinite;
+				-o-animation: cssload-dot-move 2.4s 0s ease infinite;
+				-ms-animation: cssload-dot-move 2.4s 0s ease infinite;
+				-webkit-animation: cssload-dot-move 2.4s 0s ease infinite;
+				-moz-animation: cssload-dot-move 2.4s 0s ease infinite;
+			}
+
+			.cssload-dot:nth-child(2) {
+				animation: cssload-dot-rotate-2 2.4s 0.6s linear infinite;
+				-o-animation: cssload-dot-rotate-2 2.4s 0.6s linear infinite;
+				-ms-animation: cssload-dot-rotate-2 2.4s 0.6s linear infinite;
+				-webkit-animation: cssload-dot-rotate-2 2.4s 0.6s linear infinite;
+				-moz-animation: cssload-dot-rotate-2 2.4s 0.6s linear infinite;
+			}
+			.cssload-dot:nth-child(2):before {
+				background-color: rgb(32, 139, 241);
+				animation: cssload-dot-move 2.4s 0.6s ease infinite;
+				-o-animation: cssload-dot-move 2.4s 0.6s ease infinite;
+				-ms-animation: cssload-dot-move 2.4s 0.6s ease infinite;
+				-webkit-animation: cssload-dot-move 2.4s 0.6s ease infinite;
+				-moz-animation: cssload-dot-move 2.4s 0.6s ease infinite;
+			}
+
+			.cssload-dot:nth-child(3) {
+				animation: cssload-dot-rotate-3 2.4s 1.2s linear infinite;
+				-o-animation: cssload-dot-rotate-3 2.4s 1.2s linear infinite;
+				-ms-animation: cssload-dot-rotate-3 2.4s 1.2s linear infinite;
+				-webkit-animation: cssload-dot-rotate-3 2.4s 1.2s linear infinite;
+				-moz-animation: cssload-dot-rotate-3 2.4s 1.2s linear infinite;
+			}
+			.cssload-dot:nth-child(3):before {
+				background-color: rgb(175, 225, 2);
+				animation: cssload-dot-move 2.4s 1.2s ease infinite;
+				-o-animation: cssload-dot-move 2.4s 1.2s ease infinite;
+				-ms-animation: cssload-dot-move 2.4s 1.2s ease infinite;
+				-webkit-animation: cssload-dot-move 2.4s 1.2s ease infinite;
+				-moz-animation: cssload-dot-move 2.4s 1.2s ease infinite;
+			}
+
+			.cssload-dot:nth-child(4) {
+				animation: cssload-dot-rotate-4 2.4s 1.8s linear infinite;
+				-o-animation: cssload-dot-rotate-4 2.4s 1.8s linear infinite;
+				-ms-animation: cssload-dot-rotate-4 2.4s 1.8s linear infinite;
+				-webkit-animation: cssload-dot-rotate-4 2.4s 1.8s linear infinite;
+				-moz-animation: cssload-dot-rotate-4 2.4s 1.8s linear infinite;
+			}
+			.cssload-dot:nth-child(4):before {
+				background-color: rgb(251, 211, 1);
+				animation: cssload-dot-move 2.4s 1.8s ease infinite;
+				-o-animation: cssload-dot-move 2.4s 1.8s ease infinite;
+				-ms-animation: cssload-dot-move 2.4s 1.8s ease infinite;
+				-webkit-animation: cssload-dot-move 2.4s 1.8s ease infinite;
+				-moz-animation: cssload-dot-move 2.4s 1.8s ease infinite;
+			}
+
+			@keyframes cssload-dot-move {
+				0% {
+					transform: translateY(0);
+				}
+				18%,
+				22% {
+					transform: translateY(-68px);
+				}
+				40%,
+				100% {
+					transform: translateY(0);
+				}
+			}
+
+			@-o-keyframes cssload-dot-move {
+				0% {
+					-o-transform: translateY(0);
+				}
+				18%,
+				22% {
+					-o-transform: translateY(-68px);
+				}
+				40%,
+				100% {
+					-o-transform: translateY(0);
+				}
+			}
+
+			@-ms-keyframes cssload-dot-move {
+				0% {
+					-ms-transform: translateY(0);
+				}
+				18%,
+				22% {
+					-ms-transform: translateY(-68px);
+				}
+				40%,
+				100% {
+					-ms-transform: translateY(0);
+				}
+			}
+
+			@-webkit-keyframes cssload-dot-move {
+				0% {
+					-webkit-transform: translateY(0);
+				}
+				18%,
+				22% {
+					-webkit-transform: translateY(-68px);
+				}
+				40%,
+				100% {
+					-webkit-transform: translateY(0);
+				}
+			}
+
+			@-moz-keyframes cssload-dot-move {
+				0% {
+					-moz-transform: translateY(0);
+				}
+				18%,
+				22% {
+					-moz-transform: translateY(-68px);
+				}
+				40%,
+				100% {
+					-moz-transform: translateY(0);
+				}
+			}
+
+			@keyframes cssload-dot-colors {
+				0% {
+					background-color: rgb(251, 211, 1);
+				}
+				25% {
+					background-color: rgb(255, 50, 112);
+				}
+				50% {
+					background-color: rgb(32, 139, 241);
+				}
+				75% {
+					background-color: rgb(175, 225, 2);
+				}
+				100% {
+					background-color: rgb(251, 211, 1);
+				}
+			}
+
+			@-o-keyframes cssload-dot-colors {
+				0% {
+					background-color: rgb(251, 211, 1);
+				}
+				25% {
+					background-color: rgb(255, 50, 112);
+				}
+				50% {
+					background-color: rgb(32, 139, 241);
+				}
+				75% {
+					background-color: rgb(175, 225, 2);
+				}
+				100% {
+					background-color: rgb(251, 211, 1);
+				}
+			}
+
+			@-ms-keyframes cssload-dot-colors {
+				0% {
+					background-color: rgb(251, 211, 1);
+				}
+				25% {
+					background-color: rgb(255, 50, 112);
+				}
+				50% {
+					background-color: rgb(32, 139, 241);
+				}
+				75% {
+					background-color: rgb(175, 225, 2);
+				}
+				100% {
+					background-color: rgb(251, 211, 1);
+				}
+			}
+
+			@-webkit-keyframes cssload-dot-colors {
+				0% {
+					background-color: rgb(251, 211, 1);
+				}
+				25% {
+					background-color: rgb(255, 50, 112);
+				}
+				50% {
+					background-color: rgb(32, 139, 241);
+				}
+				75% {
+					background-color: rgb(175, 225, 2);
+				}
+				100% {
+					background-color: rgb(251, 211, 1);
+				}
+			}
+
+			@-moz-keyframes cssload-dot-colors {
+				0% {
+					background-color: rgb(251, 211, 1);
+				}
+				25% {
+					background-color: rgb(255, 50, 112);
+				}
+				50% {
+					background-color: rgb(32, 139, 241);
+				}
+				75% {
+					background-color: rgb(175, 225, 2);
+				}
+				100% {
+					background-color: rgb(251, 211, 1);
+				}
+			}
+
+			@keyframes cssload-dot-rotate-1 {
+				0% {
+					transform: rotate(-105deg);
+				}
+				100% {
+					transform: rotate(270deg);
+				}
+			}
+
+			@-o-keyframes cssload-dot-rotate-1 {
+				0% {
+					-o-transform: rotate(-105deg);
+				}
+				100% {
+					-o-transform: rotate(270deg);
+				}
+			}
+
+			@-ms-keyframes cssload-dot-rotate-1 {
+				0% {
+					-ms-transform: rotate(-105deg);
+				}
+				100% {
+					-ms-transform: rotate(270deg);
+				}
+			}
+
+			@-webkit-keyframes cssload-dot-rotate-1 {
+				0% {
+					-webkit-transform: rotate(-105deg);
+				}
+				100% {
+					-webkit-transform: rotate(270deg);
+				}
+			}
+
+			@-moz-keyframes cssload-dot-rotate-1 {
+				0% {
+					-moz-transform: rotate(-105deg);
+				}
+				100% {
+					-moz-transform: rotate(270deg);
+				}
+			}
+
+			@keyframes cssload-dot-rotate-2 {
+				0% {
+					transform: rotate(165deg);
+				}
+				100% {
+					transform: rotate(540deg);
+				}
+			}
+
+			@-o-keyframes cssload-dot-rotate-2 {
+				0% {
+					-o-transform: rotate(165deg);
+				}
+				100% {
+					-o-transform: rotate(540deg);
+				}
+			}
+
+			@-ms-keyframes cssload-dot-rotate-2 {
+				0% {
+					-ms-transform: rotate(165deg);
+				}
+				100% {
+					-ms-transform: rotate(540deg);
+				}
+			}
+
+			@-webkit-keyframes cssload-dot-rotate-2 {
+				0% {
+					-webkit-transform: rotate(165deg);
+				}
+				100% {
+					-webkit-transform: rotate(540deg);
+				}
+			}
+
+			@-moz-keyframes cssload-dot-rotate-2 {
+				0% {
+					-moz-transform: rotate(165deg);
+				}
+				100% {
+					-moz-transform: rotate(540deg);
+				}
+			}
+
+			@keyframes cssload-dot-rotate-3 {
+				0% {
+					transform: rotate(435deg);
+				}
+				100% {
+					transform: rotate(810deg);
+				}
+			}
+
+			@-o-keyframes cssload-dot-rotate-3 {
+				0% {
+					-o-transform: rotate(435deg);
+				}
+				100% {
+					-o-transform: rotate(810deg);
+				}
+			}
+
+			@-ms-keyframes cssload-dot-rotate-3 {
+				0% {
+					-ms-transform: rotate(435deg);
+				}
+				100% {
+					-ms-transform: rotate(810deg);
+				}
+			}
+
+			@-webkit-keyframes cssload-dot-rotate-3 {
+				0% {
+					-webkit-transform: rotate(435deg);
+				}
+				100% {
+					-webkit-transform: rotate(810deg);
+				}
+			}
+
+			@-moz-keyframes cssload-dot-rotate-3 {
+				0% {
+					-moz-transform: rotate(435deg);
+				}
+				100% {
+					-moz-transform: rotate(810deg);
+				}
+			}
+
+			@keyframes cssload-dot-rotate-4 {
+				0% {
+					transform: rotate(705deg);
+				}
+				100% {
+					transform: rotate(1080deg);
+				}
+			}
+
+			@-o-keyframes cssload-dot-rotate-4 {
+				0% {
+					-o-transform: rotate(705deg);
+				}
+				100% {
+					-o-transform: rotate(1080deg);
+				}
+			}
+
+			@-ms-keyframes cssload-dot-rotate-4 {
+				0% {
+					-ms-transform: rotate(705deg);
+				}
+				100% {
+					-ms-transform: rotate(1080deg);
+				}
+			}
+
+			@-webkit-keyframes cssload-dot-rotate-4 {
+				0% {
+					-webkit-transform: rotate(705deg);
+				}
+				100% {
+					-webkit-transform: rotate(1080deg);
+				}
+			}
+
+			@-moz-keyframes cssload-dot-rotate-4 {
+				0% {
+					-moz-transform: rotate(705deg);
+				}
+				100% {
+					-moz-transform: rotate(1080deg);
+				}
+			}
+
+			#fountainTextG {
+				width: 234px;
+				margin-top: -40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+			}
+
+			.fountainTextG {
+				color: rgb(0, 0, 0);
+				font-family: Arial;
+				font-size: 24px;
+				text-decoration: none;
+				font-weight: normal;
+				font-style: normal;
+				animation-name: bounce_fountainTextG;
+				-o-animation-name: bounce_fountainTextG;
+				-ms-animation-name: bounce_fountainTextG;
+				-webkit-animation-name: bounce_fountainTextG;
+				-moz-animation-name: bounce_fountainTextG;
+				animation-duration: 2.09s;
+				-o-animation-duration: 2.09s;
+				-ms-animation-duration: 2.09s;
+				-webkit-animation-duration: 2.09s;
+				-moz-animation-duration: 2.09s;
+				animation-iteration-count: infinite;
+				-o-animation-iteration-count: infinite;
+				-ms-animation-iteration-count: infinite;
+				-webkit-animation-iteration-count: infinite;
+				-moz-animation-iteration-count: infinite;
+				animation-direction: normal;
+				-o-animation-direction: normal;
+				-ms-animation-direction: normal;
+				-webkit-animation-direction: normal;
+				-moz-animation-direction: normal;
+				transform: scale(0.5);
+				-o-transform: scale(0.5);
+				-ms-transform: scale(0.5);
+				-webkit-transform: scale(0.5);
+				-moz-transform: scale(0.5);
+			}
+			#fountainTextG_1 {
+				animation-delay: 0.75s;
+				-o-animation-delay: 0.75s;
+				-ms-animation-delay: 0.75s;
+				-webkit-animation-delay: 0.75s;
+				-moz-animation-delay: 0.75s;
+			}
+			#fountainTextG_2 {
+				animation-delay: 0.9s;
+				-o-animation-delay: 0.9s;
+				-ms-animation-delay: 0.9s;
+				-webkit-animation-delay: 0.9s;
+				-moz-animation-delay: 0.9s;
+			}
+			#fountainTextG_3 {
+				animation-delay: 1.05s;
+				-o-animation-delay: 1.05s;
+				-ms-animation-delay: 1.05s;
+				-webkit-animation-delay: 1.05s;
+				-moz-animation-delay: 1.05s;
+			}
+			#fountainTextG_4 {
+				animation-delay: 1.2s;
+				-o-animation-delay: 1.2s;
+				-ms-animation-delay: 1.2s;
+				-webkit-animation-delay: 1.2s;
+				-moz-animation-delay: 1.2s;
+			}
+			#fountainTextG_5 {
+				animation-delay: 1.35s;
+				-o-animation-delay: 1.35s;
+				-ms-animation-delay: 1.35s;
+				-webkit-animation-delay: 1.35s;
+				-moz-animation-delay: 1.35s;
+			}
+			#fountainTextG_6 {
+				animation-delay: 1.5s;
+				-o-animation-delay: 1.5s;
+				-ms-animation-delay: 1.5s;
+				-webkit-animation-delay: 1.5s;
+				-moz-animation-delay: 1.5s;
+			}
+			#fountainTextG_7 {
+				animation-delay: 1.64s;
+				-o-animation-delay: 1.64s;
+				-ms-animation-delay: 1.64s;
+				-webkit-animation-delay: 1.64s;
+				-moz-animation-delay: 1.64s;
+			}
+
+			@keyframes bounce_fountainTextG {
+				0% {
+					transform: scale(1);
+					color: rgb(0, 0, 0);
+				}
+
+				100% {
+					transform: scale(0.5);
+					color: rgb(255, 255, 255);
+				}
+			}
+
+			@-o-keyframes bounce_fountainTextG {
+				0% {
+					-o-transform: scale(1);
+					color: rgb(0, 0, 0);
+				}
+
+				100% {
+					-o-transform: scale(0.5);
+					color: rgb(255, 255, 255);
+				}
+			}
+
+			@-ms-keyframes bounce_fountainTextG {
+				0% {
+					-ms-transform: scale(1);
+					color: rgb(0, 0, 0);
+				}
+
+				100% {
+					-ms-transform: scale(0.5);
+					color: rgb(255, 255, 255);
+				}
+			}
+
+			@-webkit-keyframes bounce_fountainTextG {
+				0% {
+					-webkit-transform: scale(1);
+					color: rgb(0, 0, 0);
+				}
+
+				100% {
+					-webkit-transform: scale(0.5);
+					color: rgb(255, 255, 255);
+				}
+			}
+
+			@-moz-keyframes bounce_fountainTextG {
+				0% {
+					-moz-transform: scale(1);
+					color: rgb(0, 0, 0);
+				}
+
+				100% {
+					-moz-transform: scale(0.5);
+					color: rgb(255, 255, 255);
+				}
+			}
+		</style>
+	</head>
+
+	<body>
+		<div id="app">
+			<div class="loading-container">
+				<div class="cssload-dots">
+					<div class="cssload-dot"></div>
+					<div class="cssload-dot"></div>
+					<div class="cssload-dot"></div>
+					<div class="cssload-dot"></div>
+					<div class="cssload-dot"></div>
+				</div>
+
+				<svg version="1.1" xmlns="http://www.w3.org/2000/svg">
+					<defs>
+						<filter id="goo">
+							<feGaussianBlur
+								in="SourceGraphic"
+								result="blur"
+								stdDeviation="12"
+							></feGaussianBlur>
+							<feColorMatrix
+								in="blur"
+								mode="matrix"
+								values="1 0 0 0 0	0 1 0 0 0	0 0 1 0 0	0 0 0 18 -7"
+								result="goo"
+							></feColorMatrix>
+						</filter>
+					</defs>
+				</svg>
+
+				<div id="fountainTextG">
+					<div id="fountainTextG_1" class="fountainTextG">L</div>
+					<div id="fountainTextG_2" class="fountainTextG">o</div>
+					<div id="fountainTextG_3" class="fountainTextG">a</div>
+					<div id="fountainTextG_4" class="fountainTextG">d</div>
+					<div id="fountainTextG_5" class="fountainTextG">i</div>
+					<div id="fountainTextG_6" class="fountainTextG">n</div>
+					<div id="fountainTextG_7" class="fountainTextG">g</div>
+				</div>
+			</div>
+		</div>
+		<script type="module" src="/src/main.js"></script>
+	</body>
+</html>

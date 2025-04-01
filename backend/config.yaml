@@ -1,0 +1,87 @@
+app: # 基本配置信息
+  env: local # 环境
+  port: 8686 # 服务监听端口
+  app_name: excalibur # 应用名称
+  app_url: '' # 应用域名
+  db_type: pgsql # 使用的数据库
+
+jwt:
+  signing-key: fdc9e9a7-6db6-4e53-bd22-f3410065fe17
+  expires-time: 7d
+  buffer-time: 1d
+  issuer: qmPlus
+
+mysql: # MySQL 配置
+  host: 127.0.0.1 # 服务器地址
+  port: 3306 # 端口
+  config: charset=utf8mb4&parseTime=True&loc=Local # 其他配置
+  db_name: grail_r1 # 数据库名称
+  username: root # 数据库用户名
+  password: '123456' # 数据库密码
+  prefix: 't_' # 全局表前缀，单独定义 TableName 则不生效
+  singular: false # 是否开启全局禁用复数，true表示不开启
+  engine: '' # 引擎，默认InnoDB
+  max_idle_conns: 10 # 最大空闲连接数
+  max_open_conns: 100 # 最大连接数
+  log_mode: error # 日志级别
+  log_zap: false # 是否通过zap写日志文件
+
+pgsql:
+  prefix: ""
+  host: 127.0.0.1 # 服务器地址
+  port: 5432
+  config: sslmode=disable TimeZone=Asia/Shanghai
+  db_name: grail_r1
+  username: postgres
+  password: 123456
+  path: ""
+  engine: ""
+  log_mode: error
+  max_idle_conns: 10
+  max_open_conns: 100
+  singular: false
+  log-zap: false
+
+# qiniu
+qiniu:
+  bucket: 'avalon2023'
+  access_key: '_1nCH_meiWOJtz5_S2KGiwrjmQ-PaOjedWtowkRx'
+  secret_key: '0yVbFcf3RwcLvby8aVXH3IoqKMk1hWwB31enhly8'
+
+redis:
+  addr: 127.0.0.1:6379
+  password: ''
+  db: 0
+  useCluster: false
+
+system:
+  db-type: mysql
+  oss-type: local
+  router-prefix: ''
+  addr: 8888
+  iplimit-count: 15000
+  iplimit-time: 3600
+  use-multipoint: false
+  use-redis: false
+
+zap: # 日志配置
+  level: info # 日志级别
+  prefix: '[aquila/server]' # 日志前缀
+  format: console # 输出
+  director: log # 日志存放的文件
+  encode_level: LowercaseColorLevelEncoder # 编码级别
+  stacktrace_key: stacktrace # 栈名
+  max_age: 0 # 日志留存时间
+  show_line: true # 显示行
+  log_in_console: true # 输出控制台
+
+minio:
+  endpoint: localhost:9000 # 确保使用 Minio 的 API 端口
+  access-key: oSWL19QTSnBj5lQGLPV3
+  secret-key: fZeyQqEo9J1iZm0SVCVtF9wGpN6OFe0ciA099HOc
+  use-ssl: false
+  bucket:
+  location:
+  use-cdn-domains: false
+  use-local: false
+  use-https: false
