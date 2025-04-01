@@ -25,7 +25,7 @@ func (t Task) CreateTaskApi(ctx *gin.Context) {
 		Content:    req.Content,
 		ProjectId:  req.ProjectId,
 		AssigneeId: req.AssigneeId,
-		CreatorId:  userId.(int64),
+		CreatorId:  int64(userId.(int)),
 		Priority:   0,
 		Status:     0,
 		StartDate:  req.StartDate,
