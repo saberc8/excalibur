@@ -15,3 +15,25 @@ backend - 后端
 - golang > v1.20.5
 - postgresql > v15.4
 - redis > v7.0.11
+
+## 运行步骤
+cd backend
+go mod tidy
+go run main.go
+
+
+cd admin
+pnpm install
+pnpm run dev
+点击初始化数据库按钮
+
+
+cd client
+pnpm install
+
+admin
+123456
+
+## 页面
+![alt text](image-1.png)
+![alt text](image.png)
